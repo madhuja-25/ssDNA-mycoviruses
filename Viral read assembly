@@ -1,0 +1,31 @@
+##Running Reference genome-based assembly
+#Creating a combined reference with all genomes (both haplotypes if dikaryotic and mitochondrial genome):
+cat hapA_genomic.fna hapB_genomic.fna mitochondrial_genome.fasta > combined.fasta
+#To create a reference index for mapping
+hisat2-build combined.fasta combined_index
+hisat2 -p 16 --dta -x combined_index -1 forward_trimmed.fq.gz -2 reverse_trimmed.fq.gz -S mapped.sam
+
+##Retrieving non-aligned reads using samtools
+#To convert SAM to BAM
+samtools view -Sb mapped.sam > mapped.bam
+#To get the non-mapped reads that includes singletons
+samtools view -b -f 4 mapped.bam > unmapped.bam
+#To get the paired non-mapped reads and singleton reads from the BAM file
+samtools fastq -f 4 -F 256 -F 2048 -1 unmapped_1.fastq -2 unmapped_2.fastq -s unmapped_singletons.fastq mapped.bam 
+
+##De novo assembly of unmapped reads using Trinity (parameter set with minimum contig length as 500bp)
+Trinity --seqType fq --max_memory 128G  \
+         --left unmapped_1.fq.gz \
+         --right unmapped_2.fq.gz --CPU 32 --min_contig_length 500 --output /path_to_output/trinity_viral
+
+#To predict coding ORFs using transdecoder
+cd /path_to_output/trinity_viral
+TransDecoder.LongOrfs --complete_orfs_only -t ./Trinity.fasta
+TransDecoder.Predict -t ./Trinity.fasta
+
+
+
+
+
+
+
