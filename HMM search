@@ -1,0 +1,19 @@
+#HMM search for ssDNA-specific Rep-like proteins on predicted ORFs of Trinity-assembled contigs (Transdecoder output)
+hmmsearch --cpu 8 -E 1e-5 --tblout results.tbl Rep.hmm ./Trinity.fasta.transdecoder.pep
+
+#Output in results.tbl; renamed as hit.fasta
+
+#Retrieving the contig with HMM hit on contig named "TRINITY_contig" 
+seqkit grep -p "TRINITY_contig" ./Trinity.fasta.transdecoder.pep
+
+#Retrieving the contig with HMM hit on contig named "TRINITY_DN9239_c0_g1_i2.p1" 
+seqkit grep -p "TRINITY_contig" ./Trinity.fasta.transdecoder.pep > hit.fasta
+
+##BLAST against custom viral protein database or Non-redundant (NR) protein database
+#Making a custom viral protein database
+makeblastdb -in viral_protein.fasta -dbtype prot -out viral_db -parse_seqids
+#BLASTp against custom viral database
+blastp -query hit.fasta -db viral_db -out orf_vs_viral.out -evalue 1e-5 -num_threads 8 -outfmt 6
+
+#BLASTp against NR protein database
+blastp -query hit.fasta -db nr -remote -out results.out -evalue 1e-5 -max_target_seqs 50 -seg yes -outfmt 6
