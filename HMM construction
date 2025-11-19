@@ -1,5 +1,5 @@
-#Collected NCBI protein IDs of ssDNA-specific Rep (Replication-associated protein) protein used in Li et al., 2020 and a few additional ones from NCBI (Rep_ID.txt)
-#Retrieved the FASTA sequences of IDs to a single fasta file using the efetch command.
+#To collect NCBI protein IDs of ssDNA-specific Rep (Replication-associated protein) protein used in Li et al., 2020 and a few additional ones from NCBI (Rep_ID.txt)
+#To retrieve the FASTA sequences of IDs to a single fasta file using the efetch command.
 cat Rep_proteins.txt | while read id; do   efetch -db protein -id $id -format fasta; done > Rep.fasta
 
 #Aligning the sequences using MAFFT
