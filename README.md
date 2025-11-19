@@ -1,4 +1,4 @@
-## Background
+## BACKGROUND
 
 **Mycoviruses** are viruses associated with fungi. Mycoviral populations are highly diverse, spreading across 23 viral families. They are maintained and transmitted within fungal hosts vertically by means of asexual and/or sexual spores and horizontally between fungal hosts by hyphal fusion. Most of the known mycoviruses have dsRNA or single-stranded (ssRNA) genomes, either positive sense or negative sense. RNA mycoviruses usually range in genomic sizes of 2.5-23kb, encoding 1-12 genes from one or more genomic components. RNA-dependent RNA polymerase (RdRp) serves as an important feature. Most DNA mycoviruses are single-stranded circular, usually referred to as CRESSDNA (circular replication-associated protein-encoding ssDNA) viruses. They carry ORFs of rolling-circle replication-associated protein (Rep), capsid protein (CP) and a few unknown proteins interconnected by extensive intergenic regions, making up a genomic size of over 3.2kb, distributed across 1-4 genomic components.
 
@@ -8,7 +8,21 @@ The circular ssDNA mycoviruses make copies of their genome by rolling-circle rep
 
 **Hidden Markov Models** (HMMs) are powerful probabilistic models used to capture the statistical patterns and conserved motifs within biological sequences. They have been used as an essential tool in bioinformatics for detecting protein families and domains that share evolutionary relationships, even when sequence similarity is low. They are considered more sensitive than BLAST for finding distant homologs. By training HMMs on multiple sequence alignments of related proteins, characteristic domains can be identified and used to search large datasets with high sensitivity.  Many HMM-based tools are available for identifying hallmark viral genes. Rep proteins often display significant sequence diversity, making their detection by standard similarity searches from huge datasets challenging. To overcome this limitation, a specialised Rep protein-based HMM can be developed from curated multiple sequence alignments, enabling more accurate identification of replication-related proteins across mycoviral species. 
 
-**REFERENCES**
+## WORKFLOW
+
+Collection of Rep protein sequences from viral families *genomoviridae* and *geminiviridae*
+
+Construction of HMM based on Rep proteins using HMMER package
+
+*De novo* read assembly of virus-related reads retrieved from fungal transcriptome by reference genome-based assembly.
+
+Open reading frame (ORF) prediction on *de novo* assembled read contigs
+
+HMM search on predicted protein sequences from the contigs.
+
+
+## REFERENCES
+
 Li, P., Wang, S., Zhang, L., Qiu, D., Zhou, X., & Guo, L. (2020). A tripartite ssDNA mycovirus from a plant pathogenic fungus is infectious as cloned DNA and purified virions. Science advances, 6(14), eaay9634. https://doi.org/10.1126/sciadv.aay9634
 
 Yu, X., Li, B., Fu, Y., Jiang, D., Ghabrial, S. A., Li, G., Peng, Y., Xie, J., Cheng, J., Huang, J., & Yi, X. (2010). A geminivirus-related DNA mycovirus that confers hypovirulence to a plant pathogenic fungus. Proceedings of the National Academy of Sciences of the United States of America, 107(18), 8387–8392. https://doi.org/10.1073/pnas.0913535107
