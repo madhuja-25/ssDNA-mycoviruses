@@ -1,13 +1,21 @@
-#To collect NCBI protein IDs of ssDNA-specific Rep (Replication-associated protein) protein used in Li et al., 2020 and a few additional ones from NCBI (Rep_ID.txt)
-#To retrieve the FASTA sequences of IDs to a single fasta file using the efetch command.
-cat Rep_proteins.txt | while read id; do   efetch -db protein -id $id -format fasta; done > Rep.fasta
+#!/bin/bash
+# 01_build_rep_hmm.sh
+# Builds a Rep protein-based HMM from curated ssDNA mycovirus Rep sequences
+# (from Li et al., 2020 and additional NCBI entries; see file Rep_proteins.txt)
 
-#Aligning the sequences using MAFFT
+set -euo pipefail
+
+# Retrieve FASTA sequences for the collected NCBI protein IDs
+cat Rep_proteins.txt | while read -r id; do
+    efetch -db protein -id "$id" -format fasta
+done > Rep.fasta
+
+# Align the sequences using MAFFT
 mafft --auto Rep.fasta > Rep.aln
 
-#Trimming the non-aligned regions to reduce the alignment length
+# Trim non-aligned regions to reduce alignment length
 trimal -in Rep.aln -out Rep_trimmed.aln -automated1
 
-#Building Rep protein-based HMM using HMMER package
+# Build the Rep protein-based HMM using the HMMER package
 hmmbuild Rep.hmm Rep_trimmed.aln
 
