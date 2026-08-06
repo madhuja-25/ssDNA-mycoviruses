@@ -8,21 +8,37 @@ The circular ssDNA mycoviruses make copies of their genome by rolling-circle rep
 
 **Hidden Markov Models** (HMMs) are powerful probabilistic models used to capture the statistical patterns and conserved motifs within biological sequences. They have been used as an essential tool in bioinformatics for detecting protein families and domains that share evolutionary relationships, even when sequence similarity is low. They are considered more sensitive than BLAST for finding distant homologs. By training HMMs on multiple sequence alignments of related proteins, characteristic domains can be identified and used to search large datasets with high sensitivity.  Many HMM-based tools are available for identifying hallmark viral genes. Rep proteins often display significant sequence diversity, making their detection by standard similarity searches from huge datasets challenging. To overcome this limitation, a specialised Rep protein-based HMM can be developed from curated multiple sequence alignments, enabling more accurate identification of replication-related proteins across mycoviral species. 
 
+## REQUIREMENTS
+Tool	Used for
+NCBI Entrez Direct (efetch)	Retrieving reference Rep protein sequences
+MAFFT	Multiple sequence alignment
+trimAl	Alignment trimming
+HMMER (hmmbuild, hmmsearch)	HMM construction and search
+HISAT2	Reference-based read mapping
+SAMtools	BAM/SAM processing, unmapped read extraction
+Trinity	De novo transcript assembly
+TransDecoder	ORF prediction
+seqkit	Sequence extraction
+BLAST+ (makeblastdb, blastp)	Homology validation
+
 ## WORKFLOW
+1. 01_build_rep_hmm.sh — Collect Rep protein sequences from viral families Genomoviridae and Geminiviridae, align with MAFFT, trim with trimAl, and build a Rep protein HMM using HMMER.
+2. 02_assemble_viral_reads.sh — Map reads to the host reference genome(s), extract non-host (candidate viral) reads, and perform de novo assembly (Trinity) followed by ORF prediction (TransDecoder).
+3. 03_search_hmm.sh — Search the Rep HMM against predicted ORFs from the assembled contigs, then validate hits by BLASTp against a custom viral protein database and the NCBI NR database.
 
-Collection of Rep protein sequences from viral families *genomoviridae* and *geminiviridae*
+## USAGE 
+Run the scripts in order from a directory containing the required input files (reference genome(s), raw/trimmed reads, and Rep_proteins.txt):
 
-Construction of HMM based on Rep proteins using HMMER package
+bash
+bash 01_build_rep_hmm.sh
+bash 02_assemble_viral_reads.sh
+bash 03_search_hmm.sh
 
-*De novo* read assembly of virus-related reads retrieved from fungal transcriptome by reference genome-based assembly.
+Each script contains inline comments describing expected inputs and outputs. File paths (e.g. /path_to_output/trinity_viral) should be adjusted to your environment before running.
 
-Open reading frame (ORF) prediction on *de novo* assembled read contigs
+## RESULTS
 
-HMM search on predicted protein sequences from the contigs.
-
-## PACKAGES REQUIRED
-
-
+Applied to fungal transcriptome data from SRA accession SRR11783516, the HMM search (hmmsearch, E-value threshold 1e-5) identified six candidate ORFs with significant hits against the Rep HMM, all originating from a single Trinity contig cluster (TRINITY_DN692_c0_g1). The strongest hits returned E-values as low as 7.6 × 10⁻³¹, indicating high-confidence matches to the Rep domain profile. These candidate ORFs were carried forward for BLASTp validation against a custom viral protein database and the NCBI NR database (see 03_search_hmm.sh). Full HMMER output is available in results_SRR11783516.tbl and results_SRR11783516.out.
 
 ## REFERENCES
 
