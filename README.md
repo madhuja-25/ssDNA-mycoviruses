@@ -29,10 +29,10 @@ BLAST+ (makeblastdb, blastp)	Homology validation
 ## USAGE 
 Run the scripts in order from a directory containing the required input files (reference genome(s), raw/trimmed reads, and Rep_proteins.txt):
 
-<pre> ```bash
+<pre>
 bash 01_build_rep_hmm.sh
 bash 02_assemble_viral_reads.sh
-bash 03_search_hmm.sh``` </pre>
+bash 03_search_hmm.sh </pre>
 
 Each script contains inline comments describing expected inputs and outputs. File paths (e.g. /path_to_output/trinity_viral) should be adjusted to your environment before running.
 
