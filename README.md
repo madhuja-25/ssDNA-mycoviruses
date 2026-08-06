@@ -20,6 +20,9 @@ Open reading frame (ORF) prediction on *de novo* assembled read contigs
 
 HMM search on predicted protein sequences from the contigs.
 
+## PACKAGES REQUIRED
+
+
 
 ## REFERENCES
 
