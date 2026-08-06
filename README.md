@@ -22,9 +22,9 @@ seqkit	Sequence extraction
 BLAST+ (makeblastdb, blastp)	Homology validation
 
 ## WORKFLOW
-1. 01_build_rep_hmm.sh — Collect Rep protein sequences from viral families Genomoviridae and Geminiviridae, align with MAFFT, trim with trimAl, and build a Rep protein HMM using HMMER.
-2. 02_assemble_viral_reads.sh — Map reads to the host reference genome(s), extract non-host (candidate viral) reads, and perform de novo assembly (Trinity) followed by ORF prediction (TransDecoder).
-3. 03_search_hmm.sh — Search the Rep HMM against predicted ORFs from the assembled contigs, then validate hits by BLASTp against a custom viral protein database and the NCBI NR database.
+1. 01_build_rep_hmm.sh - Collect Rep protein sequences from viral families Genomoviridae and Geminiviridae, align with MAFFT, trim with trimAl, and build a Rep protein HMM using HMMER.
+2. 02_assemble_viral_reads.sh - Map reads to the host reference genome(s), extract non-host (candidate viral) reads, and perform de novo assembly (Trinity) followed by ORF prediction (TransDecoder).
+3. 03_search_hmm.sh - Search the Rep HMM against predicted ORFs from the assembled contigs, then validate hits by BLASTp against a custom viral protein database and the NCBI NR database.
 
 ## USAGE 
 Run the scripts in order from a directory containing the required input files (reference genome(s), raw/trimmed reads, and Rep_proteins.txt):
@@ -38,7 +38,7 @@ Each script contains inline comments describing expected inputs and outputs. Fil
 
 ## RESULTS
 
-Applied to fungal transcriptome data from SRA accession SRR11783516, the HMM search (hmmsearch, E-value threshold 1e-5) identified six candidate ORFs with significant hits against the Rep HMM, all originating from a single Trinity contig cluster (TRINITY_DN692_c0_g1). The strongest hits returned E-values as low as 7.6 × 10⁻³¹, indicating high-confidence matches to the Rep domain profile. These candidate ORFs were carried forward for BLASTp validation against a custom viral protein database and the NCBI NR database (see 03_search_hmm.sh). Full HMMER output is available in results_SRR11783516.tbl and results_SRR11783516.out.
+Applied to fungal transcriptome data (Botrytis cinerea) from SRA accession SRR11783516, the HMM search (hmmsearch, E-value threshold 1e-5) identified six candidate ORFs with significant hits against the Rep HMM, all originating from a single Trinity contig cluster (TRINITY_DN692_c0_g1). The strongest hits returned E-values as low as 7.6 × 10⁻³¹, indicating high-confidence matches to the Rep domain profile. These candidate ORFs were carried forward for BLASTp validation against a custom viral protein database and the NCBI NR database (see 03_search_hmm.sh). Full HMMER output is available in results_SRR11783516.tbl and results_SRR11783516.out.
 
 ## REFERENCES
 
